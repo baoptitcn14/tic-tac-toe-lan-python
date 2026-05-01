@@ -14,6 +14,8 @@ class TicTacToeClient:
         
         # Ask for server IP
         self.host = simpledialog.askstring("Connect", "Enter Server IP Address:", initialvalue="127.0.0.1")
+        
+        # Check if IP is empty
         if not self.host:
             self.window.destroy()
             return
@@ -27,17 +29,17 @@ class TicTacToeClient:
             self.status_label.config(text="Connected! Waiting for Player X...")
             threading.Thread(target=self.receive_data, daemon=True).start()
         except Exception as e:
-            messagebox.showerror("Error", f"Could not connect: {e}")
+            messagebox.showerror("Error", f"Không thể kết nối: {e}")
             self.window.destroy()
 
     def create_widgets(self):
-        for i in range(9):
+        for i in range(9):            
             btn = tk.Button(self.window, text=" ", font=('normal', 20), width=5, height=2,
                            command=lambda i=i: self.on_click(i))
             btn.grid(row=i//3, column=i%3)
             self.buttons.append(btn)
         
-        self.status_label = tk.Label(self.window, text="Opponent's turn", font=('normal', 12))
+        self.status_label = tk.Label(self.window, text="Đến lượt đối thủ", font=('normal', 12))
         self.status_label.grid(row=3, column=0, columnspan=3)
 
     def receive_data(self):
